@@ -5,25 +5,28 @@ namespace App\Entity;
 use App\Repository\ArticleRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
+#[UniqueEntity('title')]
 class Article
 {
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     // Si bug enlever Integer //
     #[ORM\Column(type:'integer')]
-    private ?int $id = null;
+    private ?int $id = null; 
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 1000, nullable: true)]
+    #[ORM\Column(length: 10000, nullable: true)]
     private ?string $content = null;
 
     #[ORM\Column]
