@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\Id;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,8 +46,14 @@ class ArticleController extends AbstractController
         ]);
     }
 
-
-    #[Route('/article/nouveau', 'article.new',  methods: ['GET', 'POST'])]
+    /**
+     * Cette fonction permet de créer un Article
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route('/article/nouveau', name: 'article.new',  methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
 
@@ -76,5 +83,67 @@ class ArticleController extends AbstractController
             'form' => $form->createView()
 
         ]);
+    }
+
+
+
+    #[Route('/article/edition/{id}', name: 'article.edit', methods: ['GET', 'POST'])]
+    public function edit(ArticleRepository $repository, int $id, Request $request, EntityManagerInterface $manager): Response
+
+    {
+
+        $article = $repository->findOneBy(["id" => $id]);
+        $form = $this->createForm(ArticleType::class, $article);
+
+        /**
+         * Envoie du formulaire modifié
+         */
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $article = $form->getData();
+
+            $manager->persist($article);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre article a bien été modifié avec succès !'
+            );
+            return $this->redirectToRoute('article.index');
+        }
+
+
+        return  $this->render('pages/article/edit.html.twig', [
+
+            'form' => $form->createView()
+
+        ]);
+    }
+
+
+    #[Route('/article/suppression/{id}', name: 'article.delete', methods: ['GET'])]
+    public function delete(ArticleRepository $repository, EntityManagerInterface $manager, int $id): Response
+    {
+        if (!$id) {
+
+            $this->addFlash(
+                'warning',
+                'Votre article est n\'a pas été trouvé !'
+            );
+            return $this->redirectToRoute('article.index');
+        }
+
+        $id = $repository->findOneBy(["id" => $id]);
+        $manager->remove($id);
+
+        $manager->flush();
+
+
+        $this->addFlash(
+            'success',
+            'Votre article a bien été supprimé avec succès !'
+        );
+        return $this->redirectToRoute('article.index');
     }
 }

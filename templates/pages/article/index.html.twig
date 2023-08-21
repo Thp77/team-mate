@@ -15,6 +15,9 @@
 		{% endfor %}
 		{% if not articles.items is same as([])%}
 			<h1>Mes articles</h1>
+
+			<a href="{{path('article.new')}}" class="btn btn-success">Créer un article</a>
+
 			<div class=" count mt-4 p-3 bg-success text-white rounded">
 
 
@@ -31,6 +34,8 @@
 						<th scope="col">Titre</th>
 						<th scope="col">Description</th>
 						<th scope="col">Date de création</th>
+						<th scope="col">Edition</th>
+						<th scope="col">Suppression</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,6 +45,12 @@
 							<td>{{article.title}}</td>
 							<td>{{article.content}}</td>
 							<td>{{article.createdAt|date("d/m/Y")}}</td>
+							<td>
+								<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-success">Editer</a>
+							</td>
+							<td>
+								<a href="{{path('article.delete', {id: article.id})}}" class="btn btn-danger">Supprimer</a>
+							</td>
 						</tr>
 					{% endfor %}
 				</tbody>
