@@ -134,8 +134,8 @@ class ArticleController extends AbstractController
             return $this->redirectToRoute('article.index');
         }
 
-        $id = $repository->findOneBy(["id" => $id]);
-        $manager->remove($id);
+        $article = $repository->find($id);
+        $manager->remove($article);
 
         $manager->flush();
 
