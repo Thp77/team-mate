@@ -7,7 +7,10 @@ body  {
 /* Css de la pagination */
 
 .page-link{
-    color: black;
+    color: rgb(255, 255, 255);
+}
+.page-item:disabled{
+    color: rgb(255, 255, 255);
 }
 .page-link:hover
 {
@@ -15,9 +18,13 @@ body  {
     font-weight: bolder;
 }
 .active>.page-link{
-    color: rgb(212, 181, 0);
-    font-weight: bolder;
+ color: #f36c43;   
+ font-weight: bolder;
+}
 
+.dd_pag_index .page-link{
+    background-color: rgb(53, 53, 53)!important;
+    border: 2px solid #f36c43;
 }
 
 /* fin css pagination */
