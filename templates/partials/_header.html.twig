@@ -1,21 +1,36 @@
-<nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand text-white" href="#">Navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor02">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="#">Accueil
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="{{path('article.index')}}">Articles
-            <span class="visually-hidden">(current)</span>
-          </a>
-        </li>
-       
-  </div>
+<nav class="navbar navbar-expand-lg bg-dark bg-gradient sticky-top ">
+	<div class="container-fluid  ">
+		<a class="navbar-brand text-white" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item ">
+					<a class="nav-link active text-white" aria-current="page" href="{{path('home.index')}}">Accueil</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" href="{{path('article.index')}}">Nos Articles</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link text-white" href="#">Training</a>
+				</li>
+				<li class="nav-item dropdown ">
+					<a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Espace Perso
+					</a>
+					<ul class="dropdown-menu ">
+						<li>
+							<a class="dropdown-item " href="#">Connexion</a>
+						</li>
+						<li>
+							<a class="dropdown-item " href="#">S'inscrire</a>
+						</li>
+					</ul>
+				</li>
+
+			</ul>
+
+		</div>
+	</div>
 </nav>

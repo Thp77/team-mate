@@ -1,0 +1,30 @@
+body  {
+
+    background: black;
+   
+}
+
+/* Css de la pagination */
+
+.page-link{
+    color: black;
+}
+.page-link:hover
+{
+    color: rgb(243, 108, 67);
+    font-weight: bolder;
+}
+.active>.page-link{
+    color: rgb(212, 181, 0);
+    font-weight: bolder;
+
+}
+
+/* fin css pagination */
+/* ////////////////// */
+
+/*  Css page d'accueil */
+
+.dd_home_text{
+    color: white;
+}
