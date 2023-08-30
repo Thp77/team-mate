@@ -51,4 +51,9 @@ body  {
 /*fin Css page article/
 /* ////////////////// */
 
+.dd_pag_team
+    .page-link{
+        background-color: rgb(53, 53, 53)!important;
+        border: 2px solid #ff0000;
+    }
 

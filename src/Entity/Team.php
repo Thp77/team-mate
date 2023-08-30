@@ -49,7 +49,7 @@ class Team
     #[Assert\NotNull()]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: article::class)]
+    #[ORM\ManyToMany(targetEntity: Article::class)]
     private Collection $article;
 
     public function __construct()

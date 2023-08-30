@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Team-mate - Articles
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="container mt-5">
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-dismissible alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% if not teams.items is same as([])%}
+			<h1 class='text-white '>Mes teams</h1>
+
+			{# <a href="{{path('team.new')}}" class="btn btn-success">Créer un team</a> #}
+
+			<div class=" count mt-4 p-3 bg-success text-white rounded mb-3">
+
+
+				<p>il y a
+					{{ teams.getTotalItemCount }}
+					teams au total.</p>
+			</div>
+			
+				{# total items count #}
+
+
+				{% for team in teams %}
+					<div class="  d-inline-flex align-items-center my-5 mx-3">
+						<div class="row g-0 ">
+							<div class="card  border-danger bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 18rem; height:auto">
+								<img class="card-img-top" src="/img/girlfit.jpg" alt="Card image cap">
+								<div class="card-body">
+									<h5 class="card-title text-center">{{team.name}}</h5>
+									<p class="card-text">{{team.description}}</p>
+									<p class="card-text">Difficulté :
+										{{team.difficulty}}</p>
+									<p class="card-text">Nombre de personne :
+										{{team.NbPeople}}</p>
+									<p class="card-text">Temps :
+										{{team.time}}</p>
+									<p class="card-text">{{team.createdAt|date("d/m/Y")}}</p>
+									<a href="#" class="btn btn-success">Voir plus</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+				{% endfor %}
+
+			
+			<div class="navigation d-flex justify-content-center dd_pag_team">
+				{{ knp_pagination_render(teams) }}
+
+			</div>
+		{% else %}
+			<h4>
+				Il n'y a pas de team disponible .
+			</h4>
+		{% endif %}
+	</div>
+{% endblock %}
