@@ -78,14 +78,15 @@ class ArticleType extends AbstractType
                         'class' => "btn btn-success mt-4"
                     ],
 
-                    'label' => 'Crée mon article',
+                    'label' => 'Enregister l\'article',
                     
 
 
                 ]
 
 
-            );
+                );
+         
     }
 
     public function configureOptions(OptionsResolver $resolver): void

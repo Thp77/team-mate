@@ -40,6 +40,15 @@ body  {
 /*fin Css page d'accueil/
 /* ////////////////// */
 
+/* Css list article */
 
+@media screen and (min-width: 768px) {  
+    .custom-collapse .collapse {
+            display:block;
+    }  
+}
+
+/*fin Css page article/
+/* ////////////////// */
 
 

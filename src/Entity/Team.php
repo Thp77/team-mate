@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[UniqueEntity('name')]
 class Team
 {
@@ -29,18 +30,23 @@ class Team
     private ?int $NbPeople = null;
 
     #[ORM\Column(nullable: true)]
+    #[Assert\Positive()]
+    #[Assert\LessThan(5)]
     private ?int $difficulty = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank()]
     private ?string $description = null;
 
     #[ORM\Column]
     private ?bool $isFavorite = null;
 
     #[ORM\Column]
+    #[Assert\NotNull()]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
+    #[Assert\NotNull()]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToMany(targetEntity: article::class)]
@@ -49,6 +55,15 @@ class Team
     public function __construct()
     {
         $this->article = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable;
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function setUpdatedAtValue()
+    {
+
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
