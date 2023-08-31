@@ -25,36 +25,33 @@
 					{{ articles.getTotalItemCount }}
 					articles au total.</p>
 			</div>
-			<table
-				class="table  table-hover table-dark border-2   dd_table_article">
-				{# total items count #}
-				<thead>
-					<tr>
-						<th scope="col">Numéro</th>
-						<th scope="col">Titre</th>
-						<th scope="col">Description</th>
-						<th scope="col">Date de création</th>
-						<th scope="col">Edition</th>
-						<th scope="col">Suppression</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for article in articles %}
-						<tr class="table-secondary bg-opacity-25 border-2 border-white">
-							<th scope="row">{{article.id}}</th>
-							<td>{{article.title}}</td>
-							<td>{{article.content}}</td>
-							<td>{{article.createdAt|date("d/m/Y")}}</td>
-							<td>
-								<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-success">Editer</a>
-							</td>
-							<td>
+
+			{# total items count #}
+
+			{% for article in articles %}
+
+
+				<div class="  d-inline-flex align-items-center my-3 ">
+					<div class="row g-0 ">
+						<div class="card border-warning bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 20rem; height:auto;">
+							<img class="card-img-top" src="/img/girlfit.jpg" alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title text-center">{{article.title}}</h5>
+								<p class="card-text">{{article.content[:100] ~ '...'}}</p>
+
+								<p class="card-text">{{article.createdAt|date("d/m/Y")}}</p>
+
+								<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-warning">Editer</a>
 								<a href="{{path('article.delete', {id: article.id})}}" class="btn btn-danger">Supprimer</a>
-							</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+			{% endfor %}
+
 			<div class="navigation d-flex justify-content-center dd_pag_index">
 				{{ knp_pagination_render(articles) }}
 

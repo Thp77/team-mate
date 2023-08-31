@@ -27,7 +27,7 @@ class TeamController extends AbstractController
         $teams = $paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page', 1),
-            10
+            12
         );
         return $this->render('pages/team/index.html.twig', [
             'teams' => $teams,

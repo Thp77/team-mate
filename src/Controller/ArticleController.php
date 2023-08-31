@@ -32,7 +32,7 @@ class ArticleController extends AbstractController
         $articles = $paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page', 1),
-            10
+            12
         );
 
 
@@ -45,6 +45,7 @@ class ArticleController extends AbstractController
 
         ]);
     }
+  
 
     /**
      * Cette fonction permet de créer un Article

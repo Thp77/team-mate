@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Team-mate - Articles
+{% block title %}Team-mate - Teams
 {% endblock %}
 
 {% block body %}
@@ -14,9 +14,9 @@
 			</div>
 		{% endfor %}
 		{% if not teams.items is same as([])%}
-			<h1 class='text-white '>Mes teams</h1>
+			<h1 class='text-white '>Les teams</h1>
 
-			{# <a href="{{path('team.new')}}" class="btn btn-success">Créer un team</a> #}
+			<a href="#" class="btn btn-success">Créer une team</a>
 
 			<div class=" count mt-4 p-3 bg-success text-white rounded mb-3">
 
@@ -30,13 +30,13 @@
 
 
 				{% for team in teams %}
-					<div class="  d-inline-flex align-items-center my-5 mx-3">
+					<div class="  d-inline-flex align-items-center my-3">
 						<div class="row g-0 ">
-							<div class="card  border-danger bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 18rem; height:auto">
+							<div class="card border-danger bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 20rem; height:auto">
 								<img class="card-img-top" src="/img/girlfit.jpg" alt="Card image cap">
 								<div class="card-body">
 									<h5 class="card-title text-center">{{team.name}}</h5>
-									<p class="card-text">{{team.description}}</p>
+									<p class="card-text">{{team.description[:100] ~ '...'}}</p>
 									<p class="card-text">Difficulté :
 										{{team.difficulty}}</p>
 									<p class="card-text">Nombre de personne :
