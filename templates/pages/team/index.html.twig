@@ -16,7 +16,7 @@
 		{% if not teams.items is same as([])%}
 			<h1 class='text-white '>Les teams</h1>
 
-			<a href="#" class="btn btn-success">Créer une team</a>
+			<a href="{{path('team.new')}}" class="btn btn-success">Créer une team</a>
 
 			<div class=" count mt-4 p-3 bg-success text-white rounded mb-3">
 
@@ -25,35 +25,48 @@
 					{{ teams.getTotalItemCount }}
 					teams au total.</p>
 			</div>
-			
-				{# total items count #}
+
+			{# total items count #}
 
 
-				{% for team in teams %}
-					<div class="  d-inline-flex align-items-center my-3">
-						<div class="row g-0 ">
-							<div class="card border-danger bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 20rem; height:auto">
-								<img class="card-img-top" src="/img/girlfit.jpg" alt="Card image cap">
-								<div class="card-body">
-									<h5 class="card-title text-center">{{team.name}}</h5>
-									<p class="card-text">{{team.description[:100] ~ '...'}}</p>
-									<p class="card-text">Difficulté :
-										{{team.difficulty}}</p>
-									<p class="card-text">Nombre de personne :
-										{{team.NbPeople}}</p>
-									<p class="card-text">Temps :
-										{{team.time}}</p>
-									<p class="card-text">{{team.createdAt|date("d/m/Y")}}</p>
-									<a href="#" class="btn btn-success">Voir plus</a>
-								</div>
+			{% for team in teams %}
+				<div class="  d-inline-flex align-items-center my-3">
+					<div class="row g-0 ">
+						<div class="card border-danger bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 20rem; height:auto">
+							<img class="card-img-top" src="/img/girlfit.jpg" alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title text-center">{{team.name}}</h5>
+								<p class="card-text">{{team.description[:100] ~ '...'}}</p>
+								<p class="card-text">Difficulté :
+									{%if team.difficulty is null%}
+										N.A
+									{% else %}
+										{{team.difficulty}}
+									{% endif %}
+								</p>
+								<p class="card-text">Nombre de personne :
+									{%if team.NbPeople is null%}
+										N.A
+									{% else %}
+										{{team.NbPeople}}
+									{% endif %}</p>
+								<p class="card-text">Temps :
+										{%if team.time is null%}
+										N.A
+									{% else %}
+										{{team.time}}
+									{% endif %}</p>
+								<p class="card-text">{{team.createdAt|date("d/m/Y")}}</p>
+								<a href="#" class="btn btn-success">Voir plus</a>
 							</div>
 						</div>
 					</div>
+				</div>
 
 
-				{% endfor %}
+			{% endfor %}
 
-			
+
 			<div class="navigation d-flex justify-content-center dd_pag_team">
 				{{ knp_pagination_render(teams) }}
 

@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Team;
+use App\Form\TeamType;
 use App\Repository\TeamRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,5 +34,18 @@ class TeamController extends AbstractController
         return $this->render('pages/team/index.html.twig', [
             'teams' => $teams,
         ]);
+    }
+
+    #[Route('/team/creation', name: 'team.new', methods: ['GET','POST'])]
+    public function new(): Response
+
+    {
+        $team = new Team();
+        $form = $this-> createForm(TeamType::class, $team);
+        return $this->render('pages/team/new.html.twig', 
+        [
+            'form' => $form->createView()
+        ]);
+
     }
 }
