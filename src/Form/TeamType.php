@@ -149,6 +149,25 @@ class TeamType extends AbstractType
             )
             ->add(
                 'article',
+                EntityType::class,
+                [
+                    'class' => Article::class,
+                    'query_builder' => function (ArticleRepository $r) {
+                        return $r->createQueryBuilder('i')
+                            // ->where('i.user = :user')
+                            ->orderBy('i.title', 'ASC');
+                        // ->setParameter('user', $this->token->getToken()->getUser());
+                    },
+                    'label' => 'Choix des exercices',
+                    'label_attr' => [
+                        'class' => 'form-label mt-4'
+                    ],
+                    'choice_label' => 'title',
+                    'multiple' => true,
+                    'expanded' => true,
+
+
+                ]
 
             )
             ->add(

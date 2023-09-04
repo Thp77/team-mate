@@ -61,9 +61,6 @@ class ArticleController extends AbstractController
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
 
-        /**
-         * Envoie du formulaire 
-         */
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -89,6 +86,15 @@ class ArticleController extends AbstractController
 
 
     #[Route('/article/edition/{id}', name: 'article.edit', methods: ['GET', 'POST'])]
+    /**
+     * Permet d'editer l'article
+     *
+     * @param ArticleRepository $repository
+     * @param integer $id
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     public function edit(ArticleRepository $repository, int $id, Request $request, EntityManagerInterface $manager): Response
 
     {
@@ -96,9 +102,7 @@ class ArticleController extends AbstractController
         $article = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(ArticleType::class, $article);
 
-        /**
-         * Envoie du formulaire modifié
-         */
+  
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -124,13 +128,21 @@ class ArticleController extends AbstractController
 
 
     #[Route('/article/suppression/{id}', name: 'article.delete', methods: ['GET'])]
+    /**
+     * Permet de supprimer l'article
+     *
+     * @param ArticleRepository $repository
+     * @param EntityManagerInterface $manager
+     * @param integer $id
+     * @return Response
+     */
     public function delete(ArticleRepository $repository, EntityManagerInterface $manager, int $id): Response
     {
         if (!$id) {
 
             $this->addFlash(
                 'warning',
-                'Votre article est n\'a pas été trouvé !'
+                'Votre article  n\'a pas été trouvé !'
             );
             return $this->redirectToRoute('article.index');
         }
