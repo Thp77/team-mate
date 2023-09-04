@@ -15,6 +15,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleController extends AbstractController
 {
+
+
     /**
      * Cette fonction affiche tout les Articles.
      *
@@ -45,7 +47,7 @@ class ArticleController extends AbstractController
 
         ]);
     }
-  
+
 
     /**
      * Cette fonction permet de créer un Article
@@ -102,7 +104,7 @@ class ArticleController extends AbstractController
         $article = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(ArticleType::class, $article);
 
-  
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
