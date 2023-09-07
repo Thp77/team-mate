@@ -5,8 +5,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserPasswordType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +18,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
+
+
     #[Route('/utilisateur/edition/{id}', name: 'user.edit', methods: ['GET', 'POST'])]
     /**
      * Permet d'editer l'utilisateur
@@ -59,22 +63,34 @@ class UserController extends AbstractController
 
         ]);
     }
+    public function __construct(private ManagerRegistry $doctrine) {}
 
-    #[Route('/utilisateur/edition-mdp/{id}', 'user.edit.password', methods: ['GET', 'POST'])]
+    public function someAction() {
+        // access Doctrine
+        $this->doctrine;
+    }
+
+    #[Route('/utilisateur/edition-mdp/{id}','user.edit.password', methods: ['GET', 'POST'])]
     public function editPassword(
-        User $user,
+        int $id, // Injectez l'ID depuis la route
         Request $request,
         EntityManagerInterface $manager,
         UserPasswordHasherInterface $hasher
     ): Response {
+        $user = $this->doctrine->getRepository(User::class)->find($id);
+
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur introuvable');
+        }
+
         $form = $this->createForm(UserPasswordType::class);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             if ($hasher->isPasswordValid($user, $form->getData()['plainPassword'])) {
-                
-                $user->setPlainPassword(
-                    $form->getData()['newPassword']
+
+                $user->setPassword(
+                    $hasher->hashPassword($user, $form->getData()['newPassword'])
                 );
 
                 $this->addFlash(
@@ -85,7 +101,7 @@ class UserController extends AbstractController
                 $manager->persist($user);
                 $manager->flush();
 
-                return $this->redirectToRoute('recipe.index');
+                return $this->redirectToRoute('team.index');
             } else {
                 $this->addFlash(
                     'warning',
@@ -95,8 +111,11 @@ class UserController extends AbstractController
         }
 
         return $this->render('pages/user/edit_password.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'user' => $user,
         ]);
-    }
 
+
+       
+    }
 }
