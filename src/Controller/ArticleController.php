@@ -32,7 +32,7 @@ class ArticleController extends AbstractController
         // dd($article);
 
         $articles = $paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user'=> $this->getUser()]),
             $request->query->getInt('page', 1),
             12
         );
@@ -67,6 +67,8 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $article = $form->getData();
+            $article->setUser(($this->getUser()));
+
 
             $manager->persist($article);
             $manager->flush();

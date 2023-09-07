@@ -19,21 +19,43 @@ class AppFixtures extends Fixture
      */
     private $faker;
 
-   
+
     public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
-        
     }
 
     public function load(ObjectManager $manager): void
     {
+
+        // Création Utilisateur //
+
+        $users = [];
+
+        for ($u = 0; $u < 10; $u++) {
+
+            $user = new User();
+            $user->setFullName($this->faker->name())
+                ->setPseudo(mt_rand(0, 1) === 1 ? $this->faker->firstName() : null)
+                ->setEmail($this->faker->email())
+                ->setRoles(['ROLE_USER'])
+                ->setPlainPassword('password');
+
+            
+            $users[] = $user;
+
+            $manager->persist($user);
+        }
+
+
+
         // Articles //
         $articles = [];
         for ($i = 0; $i < 50; $i++) {
             $article = new Article();
             $article->setTitle($this->faker->word()) // Changed $this->faker->words() to implode the words
-                ->setContent($this->faker->paragraphs(rand(2, 5), true)); // Adjusted the range of paragraphs
+                ->setContent($this->faker->paragraphs(rand(2, 5), true)) // Adjusted the range of paragraphs
+                ->setUser($users[mt_rand(0, count($users)-1)]);// Add a User to the Article 
 
             $articles[] = $article;
             $manager->persist($article);
@@ -57,19 +79,7 @@ class AppFixtures extends Fixture
             $manager->persist($team);
         }
 
-        // Création Utilisateur //
 
-        for ($u = 0; $u < 10; $u++) {
-
-            $user = new User();
-            $user->setFullName($this->faker->name())
-                ->setPseudo(mt_rand(0, 1) === 1 ? $this->faker->firstName() : null)
-                ->setEmail($this->faker->email())
-                ->setRoles(['ROLE_USER'])
-                ->setPlainPassword('password');
-
-            $manager->persist($user);
-        }
 
         $manager->flush();
     }

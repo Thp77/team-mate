@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 
@@ -56,9 +58,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank()]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Article::class, orphanRemoval: true)]
+    private Collection $article;
+
     public function __construct()
     {
         $this->createdAt =  new \DateTimeImmutable();
+        $this->article = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -185,5 +191,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getPlainPassword()
     {
         return $this->plainPassword;
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getArticle(): Collection
+    {
+        return $this->article;
+    }
+
+    public function addArticle(Article $article): static
+    {
+        if (!$this->article->contains($article)) {
+            $this->article->add($article);
+            $article->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Article $article): static
+    {
+        if ($this->article->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getUser() === $this) {
+                $article->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

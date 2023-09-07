@@ -32,6 +32,10 @@ class Article
     #[ORM\Column]
     private ?DateTimeImmutable $createdAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'article')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
 
     /** construtor */
     public function __construct()
@@ -83,5 +87,17 @@ class Article
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 }
