@@ -28,7 +28,7 @@ class TeamController extends AbstractController
 
 
         $teams = $paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user'=> $this->getUser()]),
             $request->query->getInt('page', 1),
             12
         );
@@ -59,6 +59,8 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $team = $form->getData();
+            $team ->setUser($this->getUser());
+
 
             $manager->persist($team);
             $manager->flush();

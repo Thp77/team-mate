@@ -1,36 +1,53 @@
 <nav class="navbar navbar-expand-lg bg-dark bg-gradient sticky-top ">
 	<div class="container-fluid  ">
-		<a class="navbar-brand text-white" href="{{path('home.index')}}"><i class="fa-solid fa-dumbbell" style="color: #db9c14;"></i></a>
+		<a class="navbar-brand text-white" href="{{path('home.index')}}">
+			<i class="fa-solid fa-dumbbell" style="color: #db9c14;"></i>
+		</a>
 		<button class="navbar-toggler" style="color:#fff" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon " ></span>
+			<span class="navbar-toggler-icon "></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item ">
 					<a class="nav-link active text-white" aria-current="page" href="{{path('home.index')}}">Accueil</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="{{path('article.index')}}">Les Exercices</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-white" href="{{path('team.index')}}">Les Team</a>
-				</li>
+				{% if app.user %}
+					<li class="nav-item">
+						<a class="nav-link text-white" href="{{path('article.index')}}">Les Exercices</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-white" href="{{path('team.index')}}">Les Team</a>
+					</li>
+				{% endif %}
+
 				<li class="nav-item dropdown ">
-					<a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Espace Perso
-					</a>
-					<ul class="dropdown-menu ">
-						<li>
-							<a class="dropdown-item " href="{{path('security.login')}}">Connexion</a>
-						</li>
-						<li>
-							<a class="dropdown-item " href="{{path('security.registration')}}">S'inscrire</a>
-						</li>
-					</ul>
+
+					{% if app.user %}
+						<a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Bienvenue {{app.user.fullName}}
+						</a>
+						<ul class="dropdown-menu ">
+
+							<a class="dropdown-item " href="{{path('user.edit', {id : app.user.id})}}">Editer mes informations</a>
+							<a class="dropdown-item " href="{{path('user.edit.password', {id : app.user.id})}}">Editer mon password</a>
+							<a class="dropdown-item " href="{{path('security.logout')}}">Déconnexion</a>
+
+						</ul>
+					</li>
 				</li>
-
 			</ul>
-
-		</div>
-	</div>
-</nav>
+		{% else %}
+			<a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				Espace Perso
+			</a>
+			<ul class="dropdown-menu ">
+				<li>
+					<a class="dropdown-item " href="{{path('security.login')}}">Connexion</a>
+				</li>
+				<li>
+					<a class="dropdown-item " href="{{path('security.registration')}}">S'inscrire</a>
+				</li>
+			</ul>
+		</li>
+	</li>
+</ul>{% endif %}</div></div></nav>

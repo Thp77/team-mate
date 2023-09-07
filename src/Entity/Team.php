@@ -52,6 +52,10 @@ class Team
     #[ORM\ManyToMany(targetEntity: Article::class)]
     private Collection $article;
 
+    #[ORM\ManyToOne(inversedBy: 'teams')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->article = new ArrayCollection();
@@ -187,6 +191,18 @@ class Team
     public function removeArticle(article $article): static
     {
         $this->article->removeElement($article);
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

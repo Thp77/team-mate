@@ -17,12 +17,16 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class TeamType extends AbstractType
 {
 
-
+    private $token;
+    public function __construct(TokenStorageInterface $token)
+    {
+        $this->token = $token;
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -154,9 +158,9 @@ class TeamType extends AbstractType
                     'class' => Article::class,
                     'query_builder' => function (ArticleRepository $r) {
                         return $r->createQueryBuilder('i')
-                            // ->where('i.user = :user')
-                            ->orderBy('i.title', 'ASC');
-                        // ->setParameter('user', $this->token->getToken()->getUser());
+                            ->where('i.user = :user')
+                            ->orderBy('i.title', 'ASC')
+                            ->setParameter('user', $this->token->getToken()->getUser());
                     },
                     'label' => 'Choix des exercices',
                     'label_attr' => [

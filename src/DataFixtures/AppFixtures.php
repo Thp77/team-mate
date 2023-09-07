@@ -70,8 +70,8 @@ class AppFixtures extends Fixture
                 ->setTime(mt_rand(0, 1) == 1 ? mt_rand(1, 1440) : null)
                 ->setNbPeople(mt_rand(0, 1) == 1 ? mt_rand(1, 50) : null)
                 ->setDifficulty(mt_rand(0, 1) == 1 ? mt_rand(1, 5) : null)
-                ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
-
+                ->setIsFavorite(mt_rand(0, 1) == 1 ? true : false)
+                ->setUser($users[mt_rand(0, count($users)-1)]);// Add a User to the Team
             for ($k = 0; $k < mt_rand(5, 15); $k++) {
                 $team->addArticle($articles[mt_rand(0, count($articles) - 1)]);
             }
