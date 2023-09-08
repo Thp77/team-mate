@@ -92,19 +92,11 @@ class UserController extends AbstractController
         UserPasswordHasherInterface $hasher
     ): Response {
         $user = $this->doctrine->getRepository(User::class)->find($id);
-
-        if (!$user) {
-            throw $this->createNotFoundException('Utilisateur introuvable');
-        }
-
-        // Vérifier si l'utilisateur actuel est autorisé à modifier le mot de passe
-        if ($user !== $this->getUser()) {
-            throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier ce mot de passe.');
-        }
-
-        
-        $user = $this->doctrine->getRepository(User::class)->find($id);
         $form = $this->createForm(UserPasswordType::class);
+
+
+
+
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -130,7 +122,15 @@ class UserController extends AbstractController
                 );
             }
         }
+        
+        if (!$user) {
+            throw $this->createNotFoundException('Utilisateur introuvable');
+        }
 
+        // Vérifier si l'utilisateur actuel est autorisé à modifier le mot de passe
+        if ($user !== $this->getUser()) {
+            throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier ce mot de passe.');
+        }
         return $this->render('pages/user/edit_password.html.twig', [
             'form' => $form->createView(),
             'user' => $user,
