@@ -6,12 +6,14 @@ use App\Entity\Article;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ArticleController extends AbstractController
 {
@@ -26,6 +28,8 @@ class ArticleController extends AbstractController
      * @return Response
      */
     #[Route('/article', name: 'article.index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+
     public function index(ArticleRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
@@ -57,6 +61,7 @@ class ArticleController extends AbstractController
      * @return Response
      */
     #[Route('/article/nouveau', name: 'article.new',  methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
 
@@ -88,9 +93,9 @@ class ArticleController extends AbstractController
     }
 
 
-
+    
     #[Route('/article/edition/{id}', name: 'article.edit', methods: ['GET', 'POST'])]
-    /**
+     /**
      * Permet d'editer l'article
      *
      * @param ArticleRepository $repository
@@ -103,10 +108,17 @@ class ArticleController extends AbstractController
 
     {
 
+
+        
         $article = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(ArticleType::class, $article);
 
-
+        // condition autorisation d'édition d'article
+        
+        if ($this->getUser() !== $article->getUser()) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
+        }
+        
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

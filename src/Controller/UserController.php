@@ -12,13 +12,14 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class UserController extends AbstractController
 {
-
 
     #[Route('/utilisateur/edition/{id}', name: 'user.edit', methods: ['GET', 'POST'])]
     /**
@@ -36,7 +37,17 @@ class UserController extends AbstractController
 
 
         $user = $repository->findOneBy(["id" => $id]);
+
+
+        // condition autorisation d'édition d'utilisateur
+
+        if ($user !== $this->getUser()) {
+            throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier ce compte.');
+        }
+
         $form = $this->createForm(UserType::class, $user);
+
+
 
         /**
          * Envoie du formulaire modifié
@@ -63,14 +74,17 @@ class UserController extends AbstractController
 
         ]);
     }
-    public function __construct(private ManagerRegistry $doctrine) {}
+    public function __construct(private ManagerRegistry $doctrine)
+    {
+    }
 
-    public function someAction() {
+    public function someAction()
+    {
         // access Doctrine
         $this->doctrine;
     }
 
-    #[Route('/utilisateur/edition-mdp/{id}','user.edit.password', methods: ['GET', 'POST'])]
+    #[Route('/utilisateur/edition-mdp/{id}', 'user.edit.password', methods: ['GET', 'POST'])]
     public function editPassword(
         int $id, // Injectez l'ID depuis la route
         Request $request,
@@ -83,6 +97,13 @@ class UserController extends AbstractController
             throw $this->createNotFoundException('Utilisateur introuvable');
         }
 
+        // Vérifier si l'utilisateur actuel est autorisé à modifier le mot de passe
+        if ($user !== $this->getUser()) {
+            throw new AccessDeniedException('Vous n\'êtes pas autorisé à modifier ce mot de passe.');
+        }
+
+        
+        $user = $this->doctrine->getRepository(User::class)->find($id);
         $form = $this->createForm(UserPasswordType::class);
 
         $form->handleRequest($request);
@@ -114,8 +135,5 @@ class UserController extends AbstractController
             'form' => $form->createView(),
             'user' => $user,
         ]);
-
-
-       
     }
 }

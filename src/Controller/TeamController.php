@@ -5,12 +5,15 @@ namespace App\Controller;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Repository\TeamRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TeamController extends AbstractController
 {
@@ -23,6 +26,8 @@ class TeamController extends AbstractController
      * @return Response
      */
     #[Route('/team', name: 'team.index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
+
     public function index(TeamRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
@@ -48,6 +53,8 @@ class TeamController extends AbstractController
      * @return Response
      */
     #[Route('/team/creation', name: 'team.new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+
     public function new(EntityManagerInterface $manager, Request $request): Response
 
     {
@@ -100,6 +107,12 @@ class TeamController extends AbstractController
 
         $team = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(TeamType::class, $team);
+
+        // condition autorisation d'édition de team
+        
+        if ($this->getUser() !== $team->getUser()) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à cette team.');
+        }
 
         /**
          * Envoie du formulaire modifié
