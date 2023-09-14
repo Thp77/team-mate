@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
@@ -18,8 +19,8 @@ class Article
     #[ORM\Id]
     #[ORM\GeneratedValue]
     // Si bug enlever Integer //
-    #[ORM\Column(type:'integer')]
-    private ?int $id = null; 
+    #[ORM\Column(type: 'integer')]
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank()]
@@ -100,4 +101,7 @@ class Article
 
         return $this;
     }
+
+
+ 
 }

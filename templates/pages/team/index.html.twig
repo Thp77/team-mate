@@ -15,8 +15,9 @@
 		{% endfor %}
 		{% if not teams.items is same as([])%}
 			<h1 class='text-white '>Les teams</h1>
-
-			<a href="{{path('team.new')}}" class="btn btn-success">Créer une team</a>
+			{% if app.user %}
+				<a href="{{path('team.new')}}" class="btn btn-success">Créer une team</a>
+			{% endif %}
 
 			<div class=" count mt-4 p-3 bg-success text-white rounded mb-3">
 
@@ -49,16 +50,24 @@
 										N.A
 									{% else %}
 										{{team.NbPeople}}
-									{% endif %}</p>
+									{% endif %}
+								</p>
 								<p class="card-text">Temps :
-										{%if team.time is null%}
+									{%if team.time is null%}
 										N.A
 									{% else %}
 										{{team.time}}
-									{% endif %}</p>
+									{% endif %}
+								</p>
 								<p class="card-text">{{team.createdAt|date("d/m/Y")}}</p>
-								<a href="{{ path('team.edit', { id: team.id }) }}" class="btn btn-warning">Editer</a>
-								<a href="{{ path('team.delete', { id: team.id }) }}" class="btn btn-danger">Supprimer</a>
+								<a href="{{ path('team.show', { id: team.id }) }}" class="btn btn-success">Voir</a>
+								{% if app.user %}
+									{% if is_granted("ROLE_USER")  %}
+										<a href="{{ path('team.edit', { id: team.id }) }}" class="btn btn-warning">Editer</a>
+										<a href="{{ path('team.delete', { id: team.id }) }}" class="btn btn-danger">Supprimer</a>
+									{% endif %}
+								{% endif %}
+
 							</div>
 						</div>
 					</div>

@@ -4,19 +4,22 @@ namespace App\Controller;
 
 use App\Entity\Team;
 use App\Form\TeamType;
+use App\Service\TeamService;
+use Psr\Log\LoggerInterface;
 use App\Repository\TeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class TeamController extends AbstractController
 {
+
+
     /**
      *  Cette fonction affiche toutes les teams.
      *
@@ -25,20 +28,43 @@ class TeamController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/team', name: 'team.index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    #[Route('/teams', name: 'team.index', methods: ['GET'])]
+    // #[IsGranted('ROLE_USER')]
 
     public function index(TeamRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
 
         $teams = $paginator->paginate(
-            $repository->findBy(['user'=> $this->getUser()]),
+            $repository->findAll(),
             $request->query->getInt('page', 1),
             12
         );
         return $this->render('pages/team/index.html.twig', [
             'teams' => $teams,
+        ]);
+    }
+
+
+
+
+    /**
+     * Autorise l'acces uniquement au Team public
+     *
+     * @param Team $teams
+     * @return Response
+     */
+    // #[Security("is_granted('ROLE_USER') and (teams.getIsPublic() === true)")]
+
+
+
+    #[Route('/teams/show/{id}', name: 'team.show', methods: ['GET'])]
+
+    public function show(TeamService $teamService, int $id): Response
+    {
+        $team = $teamService->get_team($id);
+        return $this->render('pages/team/show.html.twig', [
+            'team' => $team,
         ]);
     }
 
@@ -52,8 +78,7 @@ class TeamController extends AbstractController
      * @param Request $request
      * @return Response
      */
-    #[Route('/team/creation', name: 'team.new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[Route('/teams/new', name: 'team.new', methods: ['GET', 'POST'])]
 
     public function new(EntityManagerInterface $manager, Request $request): Response
 
@@ -66,7 +91,7 @@ class TeamController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $team = $form->getData();
-            $team ->setUser($this->getUser());
+            $team->setUser($this->getUser());
 
 
             $manager->persist($team);
@@ -90,7 +115,7 @@ class TeamController extends AbstractController
     }
 
 
-    #[Route('/team/edition/{id}', name: 'team.edit', methods: ['GET', 'POST'])]
+    #[Route('/teams/{id}/edit', name: 'team.edit', methods: ['GET', 'POST'])]
     /**
      * Permet d'editer l'article
      *
@@ -100,19 +125,21 @@ class TeamController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    public function edit(TeamRepository $repository, int $id, Request $request, EntityManagerInterface $manager): Response
+    public function edit(TeamService $teamService, int $id, Request $request, EntityManagerInterface $manager): Response
 
     {
-        
 
-        $team = $repository->findOneBy(["id" => $id]);
+
+        $team = $teamService->get_team($id);
         $form = $this->createForm(TeamType::class, $team);
 
         // condition autorisation d'édition de team
-        
+
+
         if ($this->getUser() !== $team->getUser()) {
-            throw new AccessDeniedException('Vous n\'avez pas accès à cette team.');
+            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
         }
+
 
         /**
          * Envoie du formulaire modifié
@@ -140,7 +167,7 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/team/suppression/{id}', name: 'team.delete', methods: ['GET'])]
+    #[Route('/teams/{id}/delete', name: 'team.delete', methods: ['GET'])]
     /**
      * Permet de supprimer l'article
      *
@@ -151,6 +178,10 @@ class TeamController extends AbstractController
      */
     public function delete(TeamRepository $repository, EntityManagerInterface $manager, int $id): Response
     {
+
+
+
+
         if (!$id) {
 
             $this->addFlash(
@@ -165,6 +196,11 @@ class TeamController extends AbstractController
 
         $manager->flush();
 
+        // condition autorisation delete l'article
+
+        if ($this->getUser() !== $team->getUser()) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
+        }
 
         $this->addFlash(
             'success',

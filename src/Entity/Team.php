@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\TeamRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Article;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Repository\TeamRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -42,6 +43,9 @@ class Team
     private ?bool $isFavorite = null;
 
     #[ORM\Column]
+    private ?bool $isPublic = null;
+
+    #[ORM\Column]
     #[Assert\NotNull()]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -55,6 +59,8 @@ class Team
     #[ORM\ManyToOne(inversedBy: 'teams')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+
 
     public function __construct()
     {
@@ -135,7 +141,7 @@ class Team
         return $this;
     }
 
-    public function isIsFavorite(): ?bool
+    public function getIsFavorite(): ?bool
     {
         return $this->isFavorite;
     }
@@ -143,6 +149,25 @@ class Team
     public function setIsFavorite(bool $isFavorite): static
     {
         $this->isFavorite = $isFavorite;
+
+        return $this;
+    }
+    /**
+     * Get the value of isPublic
+     */
+    public function getIsPublic(): ?bool
+    {
+        return $this->isPublic;
+    }
+
+    /**
+     * Set the value of isPublic
+     *
+     * @return  self
+     */
+    public function setIsPublic(bool $isPublic)
+    {
+        $this->isPublic = $isPublic;
 
         return $this;
     }

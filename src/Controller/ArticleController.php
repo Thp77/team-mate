@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Service\ArticleService;
+
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -11,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -28,7 +29,7 @@ class ArticleController extends AbstractController
      * @return Response
      */
     #[Route('/article', name: 'article.index', methods: ['GET'])]
-    #[IsGranted('ROLE_USER')]
+    // #[IsGranted('ROLE_USER')]
 
     public function index(ArticleRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -36,7 +37,7 @@ class ArticleController extends AbstractController
         // dd($article);
 
         $articles = $paginator->paginate(
-            $repository->findBy(['user'=> $this->getUser()]),
+            $repository->findAll(),
             $request->query->getInt('page', 1),
             12
         );
@@ -52,6 +53,15 @@ class ArticleController extends AbstractController
         ]);
     }
 
+    #[Route('/article/show/{id}', name: 'article.show', methods: ['GET'])]
+
+    public function show(Articleservice $articleService, int $id): Response
+    {
+        $article = $articleService->get_article($id);
+        return $this->render('pages/article/show.html.twig', [
+            'article' => $article,
+        ]);
+    }
 
     /**
      * Cette fonction permet de créer un Article
@@ -60,37 +70,36 @@ class ArticleController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/article/nouveau', name: 'article.new',  methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $manager): Response
-    {
-
+    #[Route('/article/new', name:'article.new', methods: ['GET', 'POST'])]
+   
+    public function new(
+        Request $request,
+        EntityManagerInterface $manager
+    ): Response {
         $article = new Article();
         $form = $this->createForm(ArticleType::class, $article);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $article = $form->getData();
-            $article->setUser(($this->getUser()));
-
+            $article->setUser($this->getUser());
 
             $manager->persist($article);
             $manager->flush();
 
             $this->addFlash(
                 'success',
-                'Votre article a bien été créé !'
+                'Votre ingrédient a été créé avec succès !'
             );
+
             return $this->redirectToRoute('article.index');
         }
-        //////////////////////////////////
-        return  $this->render('pages/article/new.html.twig', [
 
+        return $this->render('pages/article/new.html.twig', [
             'form' => $form->createView()
-
         ]);
     }
+
 
 
     
@@ -167,7 +176,9 @@ class ArticleController extends AbstractController
         $manager->remove($article);
 
         $manager->flush();
-
+        if ($this->getUser() !== $article->getUser()) {
+            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
+        }
 
         $this->addFlash(
             'success',

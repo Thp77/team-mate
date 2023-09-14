@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Team-mate - Articles
+{% block title %}💪 Les exercices 💪
 {% endblock %}
 
 {% block body %}
@@ -8,15 +8,10 @@
 
 	<div class="container mt-5">
 
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-dismissible alert-success">
-				{{ message }}
-			</div>
-		{% endfor %}
-		{% if not articles.items is same as([])%}
-			<h1 class='text-white '>Mes articles</h1>
 
-			<a href="{{path('article.new')}}" class="btn btn-success">Créer un article</a>
+		{% if not articles.items is same as([])%}
+			<h2 class='text-white '>Les exercices</h2>
+
 
 			<div class=" count mt-4 p-3 bg-success text-white rounded mb-3">
 
@@ -36,13 +31,19 @@
 						<div class="card border-warning bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 20rem; height:auto;">
 							<img class="card-img-top" src="/img/girlfit.jpg" alt="Card image cap">
 							<div class="card-body">
-								<h5 class="card-title text-center">{{article.title}}</h5>
+								<h2 class="card-title text-center">{{article.title}}</h2>
+								<p>
+									créée par
+									{{article.id}}</p>
 								<p class="card-text">{{article.content[:100] ~ '...'}}</p>
 
 								<p class="card-text">{{article.createdAt|date("d/m/Y")}}</p>
 
-								<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-warning">Editer</a>
-								<a href="{{path('article.delete', {id: article.id})}}" class="btn btn-danger">Supprimer</a>
+								<a href="{{path('article.show', {id: article.id})}}" class="btn btn-success">Voir</a>
+								{% if app.user %}
+									<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-warning">Editer</a>
+									<a href="{{path('article.delete', {id: article.id})}}" class="btn btn-danger">Supprimer</a>
+								{% endif %}
 
 							</div>
 						</div>
