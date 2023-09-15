@@ -152,6 +152,23 @@ class TeamType extends AbstractType
                 ]
             )
             ->add(
+                'isPublic',
+                CheckboxType::class,
+                [
+                    'attr' => [
+                        'class' => 'form-check-input',
+                    ],
+                    'required' => false,
+                    'label' => 'Rendre public ? ',
+                    'label_attr' => [
+                        'class' => 'form-check-label'
+                    ],
+                    'constraints' => [
+                        new Assert\NotNull()
+                    ]
+                ]
+            )
+            ->add(
                 'article',
                 EntityType::class,
                 [
