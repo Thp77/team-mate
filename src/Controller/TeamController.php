@@ -5,14 +5,13 @@ namespace App\Controller;
 use App\Entity\Team;
 use App\Form\TeamType;
 use App\Service\TeamService;
-use Psr\Log\LoggerInterface;
 use App\Repository\TeamRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
@@ -29,11 +28,19 @@ class TeamController extends AbstractController
      * @return Response
      */
     #[Route('/teams', name: 'team.index', methods: ['GET'])]
-    // #[IsGranted('ROLE_USER')]
+    
 
-    public function index(TeamRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    public function index(Security $security,TeamRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-
+        if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
+            // Redirigez l'utilisateur vers la page de connexion ou effectuez une autre action appropriée
+            // Par exemple, vous pouvez définir un message flash pour informer l'utilisateur
+            $this->addFlash(
+                'warning',
+                'Vous devez être connecté pour acceder à cette page.'
+            );
+            return $this->redirectToRoute('home.index');
+        }
 
         $teams = $paginator->paginate(
             $repository->findAll(),
@@ -68,6 +75,23 @@ class TeamController extends AbstractController
         ]);
     }
 
+    #[Route('/teams/indexpublic', name:'team.index.public', methods: ['GET'])]
+    public function indexPublic(
+        TeamRepository $repository,
+        PaginatorInterface $paginator,
+        Request $request
+    ): Response {
+
+        $teams = $paginator->paginate(
+            $repository->findPublicTeam(null),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('pages/team/index_public.html.twig', [
+            'teams' => $teams
+        ]);
+    }
 
 
 
@@ -119,7 +143,7 @@ class TeamController extends AbstractController
     /**
      * Permet d'editer l'article
      *
-     * @param TeamRepository $repository
+     *
      * @param integer $id
      * @param Request $request
      * @param EntityManagerInterface $manager
@@ -137,7 +161,9 @@ class TeamController extends AbstractController
 
 
         if ($this->getUser() !== $team->getUser()) {
-            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
+            $this->addFlash('warning', 'Vous n\'avez pas le droit d\'editer cet article.');
+            return $this->redirectToRoute('team.index');;
+            throw new AccessDeniedException;
         }
 
 
@@ -199,7 +225,9 @@ class TeamController extends AbstractController
         // condition autorisation delete l'article
 
         if ($this->getUser() !== $team->getUser()) {
-            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
+            $this->addFlash('danger', 'Vous n\'avez pas le droit de supprimer cet article.');
+            return $this->redirectToRoute('team.index');;
+            throw new AccessDeniedException;
         }
 
         $this->addFlash(

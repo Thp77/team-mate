@@ -125,7 +125,9 @@ class ArticleController extends AbstractController
         // condition autorisation d'édition d'article
         
         if ($this->getUser() !== $article->getUser()) {
-            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
+            $this->addFlash('warning', 'Vous n\'avez pas le droit d\'editer cet article.');
+            return $this->redirectToRoute('team.index');;
+            throw new AccessDeniedException;
         }
         
         $form->handleRequest($request);
@@ -177,7 +179,9 @@ class ArticleController extends AbstractController
 
         $manager->flush();
         if ($this->getUser() !== $article->getUser()) {
-            throw new AccessDeniedException('Vous n\'avez pas accès à cet article.');
+            $this->addFlash('danger', 'Vous n\'avez pas le droit d\'editer cet article.');
+            return $this->redirectToRoute('team.index');;
+            throw new AccessDeniedException;
         }
 
         $this->addFlash(

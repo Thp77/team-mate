@@ -13,23 +13,8 @@
 				{{ message }}
 			</div>
 		{% endfor %}
-		{% for message in app.flashes('danger') %}
-			<div class="alert alert-dismissible alert-danger">
-				{{ message }}
-			</div>
-		{% endfor %}
-		{% for message in app.flashes('warning') %}
-			<div class="alert alert-dismissible alert-warning">
-				{{ message }}
-			</div>
-		{% endfor %}
-
-		
 		{% if not teams.items is same as([])%}
-			<h1 class='text-white '>Les teams</h1>
-			{% if app.user %}
-				<a href="{{path('team.new')}}" class="btn btn-success">Créer une team</a>
-			{% endif %}
+			<h1 class='text-white '>Les teams Public</h1>
 
 			<div class=" count mt-4 p-3 bg-success text-white rounded mb-3">
 
@@ -72,16 +57,7 @@
 									{% endif %}
 								</p>
 								<p class="card-text">{{team.createdAt|date("d/m/Y")}}</p>
-								<a href="{{path('team.show', {id: team.id})}}" class="btn btn-success col-12">Voir</a>
-								{% if app.user %}
-									<div class=" mt-3">
-										<a href="{{path('team.edit', {id: team.id})}}" class="btn btn-warning col-12">Editer</a>
-									</div>
-									<div class=" mt-3">
-										<a href="{{path('team.delete', {id: team.id})}}" class="btn btn-danger col-12">Supprimer</a>
-									</div>
-
-								{% endif %}
+								<a href="{{ path('team.show', { id: team.id }) }}" class="btn btn-success col-12">Voir</a>
 
 
 							</div>
@@ -91,7 +67,10 @@
 
 
 			{% endfor %}
-
+			<div class="container text-center  text-white">
+			<h4> Si vous voulez voir plus d'entrainement </h4>	
+			<a href="{{ path('security.registration')}}" class=" btn btn-success "> inscrivez-vous ! </a>
+			</div>
 
 			<div class="navigation d-flex justify-content-center dd_pag_team">
 				{{ knp_pagination_render(teams) }}

@@ -17,7 +17,12 @@
 					<a class="nav-link text-white" href="{{path('article.index')}}">Les Exercices</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link text-white" href="{{path('team.index')}}">Team</a>
+					{% if app.user %}
+						<a class="nav-link text-white" href="{{path('team.index')}}">Team</a>
+					{% else %}
+						<a class="nav-link text-white" href="{{path('team.index.public')}}">Team</a>
+					{% endif %}
+
 				</li>
 
 

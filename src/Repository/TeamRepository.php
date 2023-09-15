@@ -22,6 +22,20 @@ class TeamRepository extends ServiceEntityRepository
         parent::__construct($registry, Team::class);
     }
 
+    public function findPublicTeam(?int $nbteams) : array
+    {
+        
+        $queryBuilder = $this->createQueryBuilder('r')
+            ->where('r.isPublic = 1')
+            ->orderBy('r.createdAt', 'DESC');
 
-  
+
+        if ($nbteams !== 0 || $nbteams !== null) {
+            $queryBuilder->setMaxResults($nbteams);
+        }
+
+        return $queryBuilder->getQuery()
+            ->getResult();
+    }
+
 }
