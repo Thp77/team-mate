@@ -183,8 +183,8 @@ class ArticleController extends AbstractController
 
         $manager->flush();
         if ($this->getUser() !== $article->getUser()) {
-            $this->addFlash('danger', 'Vous n\'avez pas le droit d\'editer cet article.');
-            return $this->redirectToRoute('team.index');;
+            $this->addFlash('danger', 'Vous n\'avez pas le droit d\'effacer cet article.');
+            return $this->redirectToRoute('article.index');;
             throw new AccessDeniedException;
         }
 
