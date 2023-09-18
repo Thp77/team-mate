@@ -112,7 +112,6 @@ class TeamType extends AbstractType
                     ],
                     'constraints' => [
                         new Assert\Positive(),
-                        new Assert\LessThan(5)
                     ]
                 ]
             )

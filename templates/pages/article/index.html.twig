@@ -17,17 +17,17 @@
 				</div>
 			{% endfor %}
 			{% for message in app.flashes('danger') %}
-			<div class="alert alert-dismissible alert-danger">
-				{{ message }}
-			</div>
-		{% endfor %}
-		{% for message in app.flashes('warning') %}
-			<div class="alert alert-dismissible alert-warning">
-				{{ message }}
-			</div>
-		{% endfor %}
+				<div class="alert alert-dismissible alert-danger">
+					{{ message }}
+				</div>
+			{% endfor %}
+			{% for message in app.flashes('warning') %}
+				<div class="alert alert-dismissible alert-warning">
+					{{ message }}
+				</div>
+			{% endfor %}
 			{% if app.user %}
-				<a href="{{path('article.new')}}" class="btn btn-success">Créer une team</a>
+				<a href="{{path('article.new')}}" class="btn btn-success">Créer un exercice</a>
 			{% endif %}
 			<div class=" count mt-4 p-3 bg-success text-white rounded mb-3">
 
@@ -59,9 +59,26 @@
 										<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-warning col-12">Editer</a>
 									</div>
 									<div class=" mt-3">
-										<a href="{{path('article.delete', {id: article.id})}}" class="btn btn-danger col-12">Supprimer</a>
+										<a href="{{path('article.delete', {id: article.id})}}" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-danger col-12">Supprimer</a>
 									</div>
+									
 
+									<!-- Modal -->
+									<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog ">
+											<div class="modal-content ">
+												<div class="modal-header ">
+													<h1 class="modal-title fs-5  text-dark" id="exampleModalLabel">Confirmez vous la suppression ?</h1>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+													<a href="{{path('article.delete', {id: article.id})}}"  class="btn btn-danger ">Supprimer</a>
+												</div>
+											</div>
+										</div>
+									</div>
 								{% endif %}
 
 							</div>
