@@ -34,24 +34,28 @@ class ArticleController extends AbstractController
     public function index(ArticleRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
-        // dd($article);
+        $user = $this->getUser();
 
+        // Récupérez tous les articles triés par utilisateur
+        $articlesQuery = $repository->createQueryBuilder('a')
+            ->orderBy('CASE WHEN a.user = :user THEN 0 ELSE 1 END', 'ASC') // Placez les articles de l'utilisateur connecté en premier
+            ->addOrderBy('a.user', 'ASC') // Ensuite, triez par utilisateur (ascendant)
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        // Utilisez le PaginatorInterface pour paginer la liste triée des articles
         $articles = $paginator->paginate(
-            $repository->findAll(),
+            $articlesQuery,
             $request->query->getInt('page', 1),
             12
         );
 
-
-
-        // Permet d'appeler les articles de la Bdd//
-
         return $this->render('pages/article/index.html.twig', [
-
-            'articles' => $articles
-
+            'articles' => $articles,
         ]);
     }
+
+
 
     #[Route('/article/show/{id}', name: 'article.show', methods: ['GET'])]
 
@@ -70,8 +74,8 @@ class ArticleController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/article/new', name:'article.new', methods: ['GET', 'POST'])]
-   
+    #[Route('/article/new', name: 'article.new', methods: ['GET', 'POST'])]
+
     public function new(
         Request $request,
         EntityManagerInterface $manager
@@ -89,7 +93,7 @@ class ArticleController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Votre ingrédient a été créé avec succès !'
+                'Votre article a été créé avec succès !'
             );
 
             return $this->redirectToRoute('article.index');
@@ -102,9 +106,9 @@ class ArticleController extends AbstractController
 
 
 
-    
+
     #[Route('/article/edition/{id}', name: 'article.edit', methods: ['GET', 'POST'])]
-     /**
+    /**
      * Permet d'editer l'article
      *
      * @param ArticleRepository $repository
@@ -118,18 +122,18 @@ class ArticleController extends AbstractController
     {
 
 
-        
+
         $article = $repository->findOneBy(["id" => $id]);
         $form = $this->createForm(ArticleType::class, $article);
 
         // condition autorisation d'édition d'article
-        
+
         if ($this->getUser() !== $article->getUser()) {
             $this->addFlash('warning', 'Vous n\'avez pas le droit d\'editer cet article.');
             return $this->redirectToRoute('team.index');;
             throw new AccessDeniedException;
         }
-        
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

@@ -54,7 +54,7 @@
 								<p class="card-text">{{article.createdAt|date("d/m/Y")}}</p>
 
 								<a href="{{path('article.show', {id: article.id})}}" class="btn btn-success col-12">Voir</a>
-								{% if app.user %}
+								{% if app.user and article.user == app.user %}
 									<div class=" mt-3">
 										<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-warning col-12">Editer</a>
 									</div>

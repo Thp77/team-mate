@@ -42,8 +42,18 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('home.index');
         }
 
+        $user = $this->getUser();
+
+        // Récupérez tous les articles triés par utilisateur
+        $teamsQuery = $repository->createQueryBuilder('a')
+            ->orderBy('CASE WHEN a.user = :user THEN 0 ELSE 1 END', 'ASC') // Placez les articles de l'utilisateur connecté en premier
+            ->addOrderBy('a.user', 'ASC') // Ensuite, triez par utilisateur (ascendant)
+            ->setParameter('user', $user)
+            ->getQuery();
+
+
         $teams = $paginator->paginate(
-            $repository->findAll(),
+            $teamsQuery,
             $request->query->getInt('page', 1),
             12
         );
