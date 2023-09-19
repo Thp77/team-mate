@@ -73,6 +73,9 @@ class UserController extends AbstractController
 
         ]);
     }
+
+
+    
     public function __construct(private ManagerRegistry $doctrine)
     {
     }
@@ -92,8 +95,6 @@ class UserController extends AbstractController
     ): Response {
         $user = $this->doctrine->getRepository(User::class)->find($id);
         $form = $this->createForm(UserPasswordType::class);
-
-
 
 
 

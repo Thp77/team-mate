@@ -4,10 +4,12 @@ namespace App\EntityListener;
 
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
 class UserListener
 {
-    private UserPasswordHasherInterface $hasher;
+
+
+    
+    private  $hasher;
 
     public function __construct(UserPasswordHasherInterface $hasher)
     {
