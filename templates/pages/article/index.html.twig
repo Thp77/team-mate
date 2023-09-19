@@ -10,7 +10,7 @@
 
 
 		{% if not articles.items is same as([])%}
-			<h2 class='text-white '>Les exercices</h2>
+			<h1 class='text-white '>Les exercices</h1>
 			{% for message in app.flashes('success') %}
 				<div class="alert alert-dismissible alert-success">
 					{{ message }}
