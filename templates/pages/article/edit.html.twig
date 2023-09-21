@@ -1,35 +1,36 @@
 {% extends 'base.html.twig' %}
 {% block title %}Team-mate - Edit ✏️
- {% endblock %}
+{% endblock %}
 
 {% block body %}
 
-	<div
-		class="container mt-5 text-white">
-		{# read and display just one flash message type #}
-		
-		<h1 class="text-center ">Editer l'article</h1>
-		{{ form_start(form) }}
-		<div class="form_error">
-			{{ form_errors(form) }}
-		</div>
+	<div class="dd_footer">
+		<div
+			class="container mt-5 text-white">
+			{# read and display just one flash message type #}
 
-		<div class="form-group">
-			{{ form_label(form.title) }}
-			{{ form_widget(form.title) }}
-			<div>{{ form_errors(form.title) }}</div>
+			<h1 class="text-center ">Editer l'article</h1>
+			{{ form_start(form) }}
+			<div class="form_error">
+				{{ form_errors(form) }}
+			</div>
 
-		</div>
-		<div class="form-group">
-			{{ form_label(form.content) }}
-			{{ form_widget(form.content) }}
-			<div>{{ form_errors(form.content) }}</div>
+			<div class="form-group">
+				{{ form_label(form.title) }}
+				{{ form_widget(form.title) }}
+				<div>{{ form_errors(form.title) }}</div>
 
+			</div>
+			<div class="form-group">
+				{{ form_label(form.content) }}
+				{{ form_widget(form.content) }}
+				<div>{{ form_errors(form.content) }}</div>
+
+			</div>
+			<div class="form-group text-center">
+				{{ form_row(form.submit) }}
+			</div>
+			{{ form_end(form) }}
 		</div>
-		<div class="form-group text-center">
-			{{ form_row(form.submit) }} 
-		</div>
-		{{ form_end(form) }}
 	</div>
-
 {% endblock body %}
