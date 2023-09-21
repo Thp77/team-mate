@@ -190,7 +190,7 @@ class ArticleController extends AbstractController
 
         $this->addFlash(
             'success',
-            'Votre article a bien été supprimé avec succès !'
+            'Votre article  a bien été supprimé avec succès !'
         );
         return $this->redirectToRoute('article.index');
     }
