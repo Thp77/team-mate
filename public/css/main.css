@@ -57,3 +57,10 @@ body  {
         border: 2px solid #ff0000;
     }
 
+    /* Css Alert card Team/Article Delete */
+
+    
+    .dd_delete_team:hover{
+        
+       color:#f3d943!important;
+    }
