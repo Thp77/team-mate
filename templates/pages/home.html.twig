@@ -6,65 +6,105 @@
 
 {% block body %}
 
-	<main>
 
-		{% for message in app.flashes('success') %}
-			<div class="alert alert-dismissible alert-success">
-				{{ message }}
+	{% for message in app.flashes('success') %}
+		<div class="alert alert-dismissible alert-success">
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	<!-- START THE FEATURETTES -->
+
+	<hr class="featurette-divider ">
+	<div class="container text-white ">
+		<div class="row featurette">
+			<div class="col-md-7">
+				<h2 class="card-title">Bienvenue sur Team Mate, votre destination ultime,
+					<span>pour une expérience fitness inégalée !</span>
+				</h2>
+				<p class="card-text">
+					Ici, vous découvrirez bien plus qu'un simple site web. Nous sommes l'endroit par excellence pour dénicher non seulement une multitude d'exercices efficaces, mais également pour établir des liens solides avec des partenaires d'entraînement dévoués. Chez Team Mate, nous croyons fermement que le succès naît de la communauté, de la collaboration et du partage. Rejoignez-nous dès maintenant pour repousser vos limites, atteindre vos objectifs et vivre une aventure fitness palpitante, le tout aux côtés de compagnons d'entraînement exceptionnels. Ne laissez pas cette opportunité vous échapper ; votre quête vers la meilleure version de vous-même commence ici, sur Team Mate. Rejoignez le mouvement dès aujourd'hui et transformez votre passion en réalité !</p>
 			</div>
-		{% endfor %}
-
-		<!-- START THE FEATURETTES -->
-
-		<hr class="featurette-divider ">
-		<div class="container text-white ">
-			<div class="row featurette">
-				<div class="col-md-7">
-					<h2 class="card-title">Bienvenue sur Team Mate, votre destination ultime,
-						<span>pour une expérience fitness inégalée !</span>
-					</h2>
-					<p class="card-text">
-						Ici, vous découvrirez bien plus qu'un simple site web. Nous sommes l'endroit par excellence pour dénicher non seulement une multitude d'exercices efficaces, mais également pour établir des liens solides avec des partenaires d'entraînement dévoués. Chez Team Mate, nous croyons fermement que le succès naît de la communauté, de la collaboration et du partage. Rejoignez-nous dès maintenant pour repousser vos limites, atteindre vos objectifs et vivre une aventure fitness palpitante, le tout aux côtés de compagnons d'entraînement exceptionnels. Ne laissez pas cette opportunité vous échapper ; votre quête vers la meilleure version de vous-même commence ici, sur Team Mate. Rejoignez le mouvement dès aujourd'hui et transformez votre passion en réalité !</p>
-				</div>
-				<div class="col-md-5 ">
-					<img class="rounded-3 card-img" src="/img/girlfit.jpg" alt="">
-
-				</div>
-			</div>
-
-			<hr class="featurette-divider">
-
-			<div class="row featurette">
-				<div class="col-md-5 ">
-					<img class="rounded-3 card-img" src="/img/teamwork.jpg" alt="">
-				</div>
-				<div class="col-md-7 ">
-					<h2 class="card-title">Dépassez vos performances,
-						<span>
-							avec le partenaire idéal !</span>
-					</h2>
-					<p class="card-text">Chez Team Mate, nous vous encourageons à fixer des objectifs audacieux et à les surpasser avec l'aide de votre coéquipier. Notre plateforme est conçue pour vous inspirer à aller toujours plus loin, à vous dépasser et à atteindre des sommets que vous n'auriez jamais imaginés. Lorsque vous vous engagez avec Team Mate, vous ne faites pas seulement équipe, vous vous embarquez dans un voyage de transformation personnelle où chaque rep, chaque séance d'entraînement, et chaque défi deviennent des opportunités de croissance et d'accomplissement. Rejoignez-nous aujourd'hui et découvrez le pouvoir de l'entraide, de la persévérance et de la réussite. Ensemble, nous pouvons repousser les limites de ce que vous pensiez possible. Préparez-vous à atteindre de nouveaux sommets avec votre Team Mate !</p>
-				</div>
-			</div>
-
-			<hr class="featurette-divider">
-
-			<div class="row featurette ">
-				<div class="col-md-7 ">
-					<h2 class="card-title">L'entraînement n'a jamais été aussi accessible.</h2>
-					<p class="card-text">Avec Team Mate, vous évoluez en équipe, dans les meilleures conditions qui soient. Rejoignez-nous pour transformer vos séances d'entraînement en une expérience exceptionnelle. Notre plateforme simplifie chaque étape de votre parcours fitness, de la recherche d'exercices à l'établissement de partenariats solides. Ici, nous mettons tout en œuvre pour que vous puissiez atteindre vos objectifs avec aisance, détermination et soutien constant. Ne laissez pas l'opportunité vous échapper. Entraînez-vous avec Team Mate et découvrez la différence d'une approche collaborative et optimisée du fitness. Rejoignez notre communauté passionnée et atteignez vos sommets en équipe !</p>
-				</div>
-				<div class="col-md-5">
-					<img class=" rounded-3 card-img" src="/img/poids.jpg" alt="">
-				</div>
+			<div class="col-md-5 ">
+				<img class="rounded-3 card-img" src="/img/girlfit.jpg" alt="">
 
 			</div>
-			<div class="text-center mt-4">
-				<h4>Afin de bénéficier de toute les séances d'entrainement, il est nécessaire de s'inscrire.</h4>
-				<a class="btn btn-success col-3" href="{{path('security.registration')}}">S'inscire ici !</a>
+		</div>
+
+		<hr class="featurette-divider">
+
+		<div class="row featurette">
+			<div class="col-md-5 ">
+				<img class="rounded-3 card-img" src="/img/teamwork.jpg" alt="">
+			</div>
+			<div class="col-md-7 ">
+				<h2 class="card-title">Dépassez vos performances,
+					<span>
+						avec le partenaire idéal !</span>
+				</h2>
+				<p class="card-text">Chez Team Mate, nous vous encourageons à fixer des objectifs audacieux et à les surpasser avec l'aide de votre coéquipier. Notre plateforme est conçue pour vous inspirer à aller toujours plus loin, à vous dépasser et à atteindre des sommets que vous n'auriez jamais imaginés. Lorsque vous vous engagez avec Team Mate, vous ne faites pas seulement équipe, vous vous embarquez dans un voyage de transformation personnelle où chaque rep, chaque séance d'entraînement, et chaque défi deviennent des opportunités de croissance et d'accomplissement. Rejoignez-nous aujourd'hui et découvrez le pouvoir de l'entraide, de la persévérance et de la réussite. Ensemble, nous pouvons repousser les limites de ce que vous pensiez possible. Préparez-vous à atteindre de nouveaux sommets avec votre Team Mate !</p>
+			</div>
+		</div>
+
+		<hr class="featurette-divider">
+
+		<div class="row featurette ">
+			<div class="col-md-7 ">
+				<h2 class="card-title">L'entraînement n'a jamais été aussi accessible.</h2>
+				<p class="card-text">Avec Team Mate, vous évoluez en équipe, dans les meilleures conditions qui soient. Rejoignez-nous pour transformer vos séances d'entraînement en une expérience exceptionnelle. Notre plateforme simplifie chaque étape de votre parcours fitness, de la recherche d'exercices à l'établissement de partenariats solides. Ici, nous mettons tout en œuvre pour que vous puissiez atteindre vos objectifs avec aisance, détermination et soutien constant. Ne laissez pas l'opportunité vous échapper. Entraînez-vous avec Team Mate et découvrez la différence d'une approche collaborative et optimisée du fitness. Rejoignez notre communauté passionnée et atteignez vos sommets en équipe !</p>
+			</div>
+			<div class="col-md-5">
+				<img class=" rounded-3 card-img" src="/img/poids.jpg" alt="">
 			</div>
 
 		</div>
+		<div class="container">
+    <div class="teams text-center">
+        <h2 class="mt-4">Les dernières équipes publiées</h2>
+        <div id="teamCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for team in teams %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <div class="row justify-content-between">
+                            <div class="col-1">
+                                <a class="carousel-control-prev" href="#teamCarousel" role="button" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </a>
+                            </div>
+                            <div class="col-8 mt-4">
+                                <div class="card border-danger bg-opacity-50 text-white bg-secondary bg-gradient" >
+                                    <div class="card-header">
+                                        Équipe n° {{ team.id }}
+                                    </div>
+                                    <div class="card-body">
+                                        <h4 class="card-title">{{ team.name }}</h4>
+                                        <p class="card-text">{{ team.description[:100] ~ '...' }}</p>
+                                        <a href="{{ path('team.show', { id: team.id }) }}" class="btn btn-success col-12">Voir</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-1">
+                                <a class="carousel-control-next" href="#teamCarousel" role="button" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
 
-		<!-- /.container -->
-	{% endblock %}
+
+		<div class="text-center mt-4">
+			<h4>Afin de voir plus de séances d'entrainement, il est nécessaire de s'inscrire.</h4>
+			<a class="btn btn-success col-3" href="{{path('security.registration')}}">S'inscire ici !</a>
+		</div>
+
+	</div>
+
+	<!-- /.container -->
+{% endblock %}
