@@ -4,6 +4,17 @@ body  {
    
 }
 
+/* Css Burger navBar */
+.navbar-toggler {
+    border: 0 transparent;
+    background-color:  #db9c14;
+  
+}
+
+/* Fin Css Burger NavBar  */
+/* ///////////////////// */
+
+
 /* Css de la pagination */
 
 .page-link{
@@ -12,6 +23,7 @@ body  {
 .page-item:disabled{
     color: rgb(255, 255, 255);
 }
+
 .page-link:hover
 {
     color: rgb(243, 108, 67);
@@ -62,5 +74,7 @@ body  {
     
     .dd_delete_team:hover{
         
-       color:#f3d943!important;
+       color:#f80000!important;
     }
+
+
