@@ -170,28 +170,38 @@ class ArticleController extends AbstractController
     public function delete(ArticleRepository $repository, EntityManagerInterface $manager, int $id): Response
     {
         if (!$id) {
-
             $this->addFlash(
                 'warning',
-                'Votre article  n\'a pas été trouvé !'
+                'Votre article n\'a pas été trouvé !'
             );
             return $this->redirectToRoute('article.index');
         }
 
         $article = $repository->find($id);
-        $manager->remove($article);
 
-        $manager->flush();
+        if (!$article) {
+            $this->addFlash(
+                'warning',
+                'L\'article que vous essayez de supprimer n\'existe pas !'
+            );
+            return $this->redirectToRoute('article.index');
+        }
+
+        // Vérifier si l'utilisateur actuel est l'auteur de l'article
         if ($this->getUser() !== $article->getUser()) {
             $this->addFlash('danger', 'Vous n\'avez pas le droit d\'effacer cet article.');
-            return $this->redirectToRoute('article.index');;
-            throw new AccessDeniedException;
+            return $this->redirectToRoute('article.index');
         }
+
+        // Supprimer l'article
+        $manager->remove($article);
+        $manager->flush();
 
         $this->addFlash(
             'success',
-            'Votre article  a bien été supprimé avec succès !'
+            'Votre article a bien été supprimé avec succès !'
         );
+
         return $this->redirectToRoute('article.index');
     }
 }

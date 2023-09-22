@@ -13,6 +13,17 @@
 				{{ message }}
 			</div>
 		{% endfor %}
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-dismissible alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
+		{% for message in app.flashes('warning') %}
+			<div class="alert alert-dismissible alert-warning">
+				{{ message }}
+			</div>
+		{% endfor %}
+
 		{% if not teams.items is same as([])%}
 			<h1 class='text-white '>Les teams public</h1>
 
@@ -68,8 +79,12 @@
 
 			{% endfor %}
 			<div class="container text-center  text-white">
-			<h4> Si vous voulez voir plus d'entrainement </h4>	
-			<a href="{{ path('security.registration')}}" class=" btn btn-success "> inscrivez-vous ! </a>
+				<h4>
+					Si vous voulez voir plus d'entrainement
+				</h4>
+				<a href="{{ path('security.registration')}}" class=" btn btn-success ">
+					inscrivez-vous !
+				</a>
 			</div>
 
 			<div class="navigation d-flex justify-content-center dd_pag_team">

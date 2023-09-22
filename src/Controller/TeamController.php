@@ -28,9 +28,9 @@ class TeamController extends AbstractController
      * @return Response
      */
     #[Route('/teams', name: 'team.index', methods: ['GET'])]
-    
 
-    public function index(Security $security,TeamRepository $repository, PaginatorInterface $paginator, Request $request): Response
+
+    public function index(Security $security, TeamRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         if (!$security->isGranted('IS_AUTHENTICATED_FULLY')) {
             // Redirigez l'utilisateur vers la page de connexion ou effectuez une autre action appropriée
@@ -85,13 +85,18 @@ class TeamController extends AbstractController
         ]);
     }
 
-    #[Route('/teams/indexpublic', name:'team.index.public', methods: ['GET'])]
+    #[Route('/teams/indexpublic', name: 'team.index.public', methods: ['GET'])]
     public function indexPublic(
         TeamRepository $repository,
         PaginatorInterface $paginator,
-        Request $request
+        Request $request,
+        Security $security
     ): Response {
-
+        if ($security->getUser()) {
+            // L'utilisateur est déjà connecté, redirigez-le vers une autre page
+            return $this->redirectToRoute('team.index'); // Remplacez 'team.index' par la route que vous souhaitez
+        }
+    
         $teams = $paginator->paginate(
             $repository->findPublicTeam(null),
             $request->query->getInt('page', 1),
@@ -162,44 +167,39 @@ class TeamController extends AbstractController
     public function edit(TeamService $teamService, int $id, Request $request, EntityManagerInterface $manager): Response
 
     {
-
+        // Vérification de l'authentification de l'utilisateur
+        if (!$this->getUser()) {
+            throw new AccessDeniedException('Vous devez être connecté pour accéder à cette page.');
+          
+        }
 
         $team = $teamService->get_team($id);
         $form = $this->createForm(TeamType::class, $team);
 
-        // condition autorisation d'édition de team
-
-
+        // Vérification de l'autorisation d'édition de l'équipe
         if ($this->getUser() !== $team->getUser()) {
-            $this->addFlash('warning', 'Vous n\'avez pas le droit d\'editer cet article.');
-            return $this->redirectToRoute('team.index');;
-            throw new AccessDeniedException;
+            $this->addFlash('warning', 'Vous n\'avez pas le droit d\'éditer cette équipe.');
+            return $this->redirectToRoute('team.index.public');
         }
 
-
-        /**
-         * Envoie du formulaire modifié
-         */
+        // Gestion du formulaire d'édition
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-
             $team = $form->getData();
-
             $manager->persist($team);
             $manager->flush();
 
             $this->addFlash(
                 'success',
-                'Votre team a bien été modifié avec succès !'
+                'Votre équipe a bien été modifiée avec succès !'
             );
+
             return $this->redirectToRoute('team.index');
         }
 
-
-        return  $this->render('pages/team/edit.html.twig', [
-
-            'form' => $form->createView()
-
+        return $this->render('pages/team/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
@@ -217,33 +217,39 @@ class TeamController extends AbstractController
 
 
 
-
         if (!$id) {
-
             $this->addFlash(
                 'warning',
-                'Votre Team  n\'a pas été trouvé !'
+                'La team n\'a pas été trouvé !'
             );
             return $this->redirectToRoute('team.index');
         }
 
         $team = $repository->find($id);
-        $manager->remove($team);
 
-        $manager->flush();
-
-        // condition autorisation delete l'article
-
-        if ($this->getUser() !== $team->getUser()) {
-            $this->addFlash('danger', 'Vous n\'avez pas le droit de supprimer cet article.');
-            return $this->redirectToRoute('team.index');;
-            throw new AccessDeniedException;
+        if (!$team) {
+            $this->addFlash(
+                'warning',
+                'La team que vous essayez de supprimer n\'existe pas !'
+            );
+            return $this->redirectToRoute('team.index');
         }
+
+        // Vérifier si l'utilisateur actuel est l'auteur de la team
+        if ($this->getUser() !== $team->getUser()) {
+            $this->addFlash('danger', 'Vous n\'avez pas le droit d\'effacer cet team.');
+            return $this->redirectToRoute('team.index');
+        }
+
+        // Supprimer l'team
+        $manager->remove($team);
+        $manager->flush();
 
         $this->addFlash(
             'success',
             'Votre team a bien été supprimé avec succès !'
         );
+
         return $this->redirectToRoute('team.index');
     }
 }
