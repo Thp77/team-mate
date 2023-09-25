@@ -82,10 +82,9 @@ body  {
     /* Css Alert card Team/Article Delete */
 
     
-    .dd_delete_team:hover{
+    .dd_delete_team{
         
+       
        color:#f80000!important;
        cursor: pointer;
     }
-
-
