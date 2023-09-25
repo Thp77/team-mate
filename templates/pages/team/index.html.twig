@@ -81,33 +81,8 @@
 										<a href="{{ path('team.delete', {id: team.id}) }}" class="btn btn-danger col-12">Supprimer
 										</a>
 										<p class="dd_delete_team text-secondary text-center">Attention suppression définitive</p>
+
 									</div>
-
-
-									
-
-									<!-- Modal en StandBy -->
-									{# <div class="modal fade" id="TeamModal" tabindex="-2" aria-labelledby="TeamModal" aria-hidden="true">
-										<div class="modal-dialog modal-dialog-centered">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title text-dark" id="TeamModal">Suppression du produit</h5>
-													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-												</div>
-												<div class="modal-body text-dark">
-													<p>Êtes-vous sûr de vouloir supprimer la team
-																																																																		"{{team.name}}" ?
-													</p>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-													<button href="{{ path('team.delete', {id: team.id}) }}" class="btn btn-danger">
-														Supprimer
-													</button>
-												</div>
-											</div>
-										</div>
-									</div> #}
 
 
 								{% endif %}
