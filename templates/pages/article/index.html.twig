@@ -60,12 +60,34 @@
 									<div class=" mt-3">
 										<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-warning col-12">Editer</a>
 									</div>
-									<div class="mt-3 ">
-										<a href="{{ path('article.delete', {id: article.id}) }}" title="Attention suppression définitive" class="btn btn-danger col-12" >Supprimer</a>
+									<div
+										class="mt-3 ">
+										
+										<button type="button" class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#ArticleModal{{ article.id }}">
+											Supprimer
+										</button>
 
-										<p class="dd_delete_team text-secondary text-center">Attention suppression définitive</p>
+
 									</div>
-
+									<div class="modal fade" id="ArticleModal{{ article.id }}" tabindex="-1" aria-labelledby="ArticleModalLabel" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+											<div class="modal-content text-dark">
+												<div class="modal-header">
+													<h2 class="modal-title fs-5" id="ArticleModalLabel">Suppression de
+														"{{article.title}}".</h2>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													Êtes-vous certain de vouloir supprimer
+													"{{article.title}}"
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+													<a href="{{ path('article.delete', {id: article.id}) }}" title="Attention suppression définitive" class="btn btn-danger ">Supprimer</a>
+												</div>
+											</div>
+										</div>
+									</div>
 								{% endif %}
 							</div>
 

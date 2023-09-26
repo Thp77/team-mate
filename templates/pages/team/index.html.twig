@@ -68,7 +68,8 @@
 									{%if team.time is null%}
 										N.A
 									{% else %}
-										{{team.time}} minutes
+										{{team.time}}
+										minutes
 									{% endif %}
 								</p>
 								<p class="card-text">{{team.createdAt|date("d/m/Y")}}</p>
@@ -78,10 +79,28 @@
 										<a href="{{path('team.edit', {id: team.id})}}" class="btn btn-warning text-dark col-12">Editer</a>
 									</div>
 									<div class="mt-3  text-center">
-										<a href="{{ path('team.delete', {id: team.id}) }}" title="Attention suppression définitive" class="btn btn-danger col-12">Supprimer
-										</a>
-										<p class="dd_delete_team text-secondary text-center">Attention suppression définitive</p>
-
+										<button type="button" class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#TeamModal{{ team.id }}">
+											Supprimer
+										</button>
+									</div>
+									<div class="modal fade" id="TeamModal{{ team.id }}" tabindex="-1" aria-labelledby="TeamModalLabel" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+											<div class="modal-content text-dark">
+												<div class="modal-header">
+													<h2 class="modal-title fs-5" id="TeamModalLabel">Suppression de
+														"{{team.name}}".</h2>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													Êtes-vous certain de vouloir supprimer
+													"{{team.name}}" ?
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+													<a href="{{ path('team.delete', {id: team.id}) }}" title="Attention suppression définitive" class="btn btn-danger ">Supprimer</a>
+												</div>
+											</div>
+										</div>
 									</div>
 								{% endif %}
 							</div>
