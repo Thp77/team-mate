@@ -55,17 +55,20 @@
 								<p class="card-text">{{article.content[:90] ~ '...'}}</p>
 
 
-								<a href="{{path('article.show', {id: article.id})}}" class="btn btn-success col-12">Voir</a>
+								<a href="{{path('article.show', {id: article.id})}}" class="dd_show btn btn-success col-12">Voir </a>
+								
+							
+
 								{% if app.user and article.user == app.user %}
 									<div class=" mt-3">
-										<a href="{{path('article.edit', {id: article.id})}}" class="btn btn-warning col-12">Editer</a>
+										<a href="{{path('article.edit', {id: article.id})}}" class="dd_edit btn btn-warning col-12">Editer</a>
 									</div>
 									<div
 										class="mt-3 ">
 										
-										<button type="button" class="btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#ArticleModal{{ article.id }}">
+										<a type="button" class="dd_trash btn btn-danger col-12" data-bs-toggle="modal" data-bs-target="#ArticleModal{{ article.id }}">
 											Supprimer
-										</button>
+										</a>
 
 
 									</div>
@@ -83,7 +86,7 @@
 												</div>
 												<div class="modal-footer">
 													<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-													<a href="{{ path('article.delete', {id: article.id}) }}" title="Attention suppression définitive" class="btn btn-danger ">Supprimer</a>
+													<a href="{{ path('article.delete', {id: article.id}) }}" title="Attention suppression définitive" class="btn btn-danger dd_trash_modal ">Supprimer</a>
 												</div>
 											</div>
 										</div>

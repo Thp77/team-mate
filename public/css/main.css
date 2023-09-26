@@ -79,12 +79,28 @@ body  {
         border: 2px solid #ff0000;
     }
 
-    /* Css Alert card Team/Article Delete */
 
-    
-    .dd_delete_team{
-        
-       
-       color:#f80000!important;
-       cursor: pointer;
+    /* css btn hover icon */
+
+    .dd_show:hover{
+       content: url(/img/eye.svg);
+       height: 40px;
+       width: 18rem;
+      
+    }
+    .dd_edit:hover{
+       content: url(/img/pencil.svg);
+       height: 40px;
+       width: 18rem;
+      
+    }
+    .dd_trash:hover{
+       content: url(/img/trash.svg);
+       height: 40px;
+       width: 18rem;
+    }
+    .dd_trash_modal:hover{
+       content: url(/img/trash.svg);
+       height: 38px;
+       width: 6.5rem;
     }
