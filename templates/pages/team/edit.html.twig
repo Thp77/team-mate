@@ -5,73 +5,77 @@
 {% block body %}
 
 
-		<div
-			class="container mt-5 text-white">
-			{# read and display just one flash message type #}
+	<div
+		class="container mt-5 text-white">
+		{# read and display just one flash message type #}
 
-			<h1 class="text-center ">Modifier la Team</h1>
-			{{ form_start(form) }}
-			<div class="form_error">
-				{{ form_errors(form) }}
-			</div>
-
-			<div class="form-group">
-				{{ form_label(form.name) }}
-				{{ form_widget(form.name) }}
-				<div>{{ form_errors(form.name) }}</div>
-
-			</div>
-			<div class="form-group">
-				{{ form_label(form.description) }}
-				{{ form_widget(form.description) }}
-				<div>{{ form_errors(form.description) }}</div>
-
-			</div>
-			<div class="form-group">
-				{{ form_label(form.time) }}
-				{{ form_widget(form.time) }}
-				<div>{{ form_errors(form.time) }}</div>
-
-			</div>
-			<div class="form-group">
-				{{ form_label(form.NbPeople) }}
-				{{ form_widget(form.NbPeople) }}
-				<div>{{ form_errors(form.NbPeople) }}</div>
-
-			</div>
-			<div class="form-group">
-				{{ form_label(form.difficulty) }}
-				{{ form_widget(form.difficulty) }}
-				<div>{{ form_errors(form.difficulty) }}</div>
-
-			</div>
-			<div class="form-group">
-				{{ form_label(form.isFavorite) }}
-				{{ form_widget(form.isFavorite) }}
-				<div>{{ form_errors(form.isFavorite) }}</div>
-
-			</div>
-			<div class="form-group">
-				{{ form_label(form.isPublic) }}
-				{{ form_widget(form.isPublic) }}
-				<div>{{ form_errors(form.isPublic) }}</div>
-
-			</div>
-			{{ form_label(form.article) }}
-			<br>
-			<div id="article-wrapper">
-				{% for field in form.article %}
-					<div style="min-width: 10%;">
-						{{ form_widget(field) }}
-						{{ form_label(field) }}
-					</div>
-				{% endfor %}
-			</div>
-			<div class="form-group text-center">
-				{{ form_row(form.submit) }}
-			</div>
-			{{ form_end(form) }}
+		<h1 class="text-center ">Modifier la Team</h1>
+		{{ form_start(form) }}
+		<div class="form_error">
+			{{ form_errors(form) }}
 		</div>
 
-	
+		<div class="form-group">
+			{{ form_label(form.name) }}
+			{{ form_widget(form.name) }}
+			<div>{{ form_errors(form.name) }}</div>
+
+		</div>
+		<div class="form-group">
+			{{ form_label(form.description) }}
+			{{ form_widget(form.description) }}
+			<div>{{ form_errors(form.description) }}</div>
+
+		</div>
+		<div class="form-group">
+			{{ form_label(form.time) }}
+			{{ form_widget(form.time) }}
+			<div>{{ form_errors(form.time) }}</div>
+
+		</div>
+		<div class="form-group">
+			{{ form_label(form.NbPeople) }}
+			{{ form_widget(form.NbPeople) }}
+			<div>{{ form_errors(form.NbPeople) }}</div>
+
+		</div>
+		<div class="form-group">
+			{{ form_label(form.difficulty) }}
+			{{ form_widget(form.difficulty) }}
+			<div>{{ form_errors(form.difficulty) }}</div>
+
+		</div>
+		<div>
+			{{ form_row(form.imageFile) }}
+		</div>
+
+		<div class="form-group">
+			{{ form_label(form.isFavorite) }}
+			{{ form_widget(form.isFavorite) }}
+			<div>{{ form_errors(form.isFavorite) }}</div>
+
+		</div>
+		<div class="form-group">
+			{{ form_label(form.isPublic) }}
+			{{ form_widget(form.isPublic) }}
+			<div>{{ form_errors(form.isPublic) }}</div>
+
+		</div>
+		{{ form_label(form.article) }}
+		<br>
+		<div id="article-wrapper">
+			{% for field in form.article %}
+				<div style="min-width: 10%;">
+					{{ form_widget(field) }}
+					{{ form_label(field) }}
+				</div>
+			{% endfor %}
+		</div>
+		<div class="form-group text-center">
+			{{ form_row(form.submit) }}
+		</div>
+		{{ form_end(form) }}
+	</div>
+
+
 {% endblock body %}

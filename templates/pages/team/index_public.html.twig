@@ -42,7 +42,7 @@
 				<div class="  d-inline-flex align-items-center my-3">
 					<div class="row g-0 ">
 						<div class="card border-danger bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 20rem; height:auto">
-							<img class="card-img-top" src="/img/girlfit.jpg" alt="Card image cap">
+							<img class="card-img-top" src="{{ vich_uploader_asset(team, 'imageFile') }}" alt="Card image cap">
 							<div class="card-body">
 								<h5 class="card-title text-center">{{team.name}}</h5>
 								<p class="card-text">{{team.description[:90] ~ '...'}}</p>

@@ -8,6 +8,7 @@ use App\Repository\ArticleRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -150,6 +151,15 @@ class TeamType extends AbstractType
                     ]
                 ]
             )
+
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'Image de la Team',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
+                'required' => false
+            ])
+
             ->add(
                 'isPublic',
                 CheckboxType::class,

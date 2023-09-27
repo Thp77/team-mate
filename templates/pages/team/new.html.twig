@@ -45,6 +45,8 @@
 			<div>{{ form_errors(form.difficulty) }}</div>
 
 		</div>
+
+		{{ form_row(form.imageFile) }}
 		<div class="form-group">
 			{{ form_label(form.isFavorite) }}
 			{{ form_widget(form.isFavorite) }}
@@ -57,8 +59,11 @@
 			<div>{{ form_errors(form.isPublic) }}</div>
 
 		</div>
-		{{ form_label(form.article) }}
-		<br>
+		<div>
+			{{ form_row(form.imageFile) }}
+		</div>
+
+		
 		<div id="article-wrapper">
 			{% for field in form.article %}
 				<div style="min-width: 10%;">
