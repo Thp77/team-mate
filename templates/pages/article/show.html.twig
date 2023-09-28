@@ -7,21 +7,28 @@
 
 {% block body %}
 
-	<div class="dd_footer">
-		<div class="container bg-danger bg-gradient bg-opacity-50 text-white border border-warning rounded-2 mt-4 ">
 
-			<h1 class="text-center ">{{article.title}}</h1>
-			<span class=" badge bg-success p-2">Créée le
-				{{article.createdAt|date('d/m/Y')}}
-			</span>
-			<h2>Description :
-			</h2>
-			<hr class="featurette-divider">
-			<p>
-				{{article.content}}</p>
+	<div class="container bg-danger bg-gradient bg-opacity-50 text-white border border-warning rounded-2 mt-4 ">
 
+		<h1 class="text-center ">{{article.title}}</h1>
+		<span class=" badge bg-success p-2">Créée le
+			{{article.createdAt|date('d/m/Y')}}
+		</span>
+		<h2>Description :
+		</h2>
 
+		<hr class="featurette-divider">
+		<p>
+			{{article.content}}</p>
+
+		<div class="mb-4">
+			{% if vich_uploader_asset(article, 'imageFile') is null %}
+				<img style="border-radius:5%;  " src="{{ asset('/img/girlfit.jpg') }}"/>
+			{% else %}
+				<img src="{{ vich_uploader_asset(article, 'imageFile') }}">
+			{% endif %}
 		</div>
 	</div>
+
 
 {% endblock %}

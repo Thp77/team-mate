@@ -7,7 +7,7 @@
 	<div
 		class="container mt-5 text-white">
 		{# read and display just one flash message type #}
-		
+
 		<h1 class="text-center ">Création d'un article</h1>
 		{{ form_start(form) }}
 		<div class="form_error">
@@ -26,6 +26,7 @@
 			<div>{{ form_errors(form.content) }}</div>
 
 		</div>
+		{{ form_row(form.imageFile) }}
 		<div class="form-group text-center">
 			{{ form_row(form.submit) }}
 		</div>
