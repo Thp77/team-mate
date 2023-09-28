@@ -241,7 +241,7 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('team.index');
         }
 
-        // Supprimer l'team
+        // Supprimer la team
         $manager->remove($team);
         $manager->flush();
 

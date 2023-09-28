@@ -11,8 +11,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 
+
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[UniqueEntity('title')]
+
 class Article
 {
 
@@ -33,6 +35,8 @@ class Article
     #[ORM\Column]
     private ?DateTimeImmutable $createdAt = null;
 
+
+
     #[ORM\ManyToOne(inversedBy: 'article')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
@@ -42,8 +46,12 @@ class Article
     public function __construct()
     {
         $this->createdAt = new DateTimeImmutable();
+       
+       
     }
 
+   
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -53,6 +61,7 @@ class Article
     {
         return $this->title;
     }
+    
 
     public function setTitle(string $title): static
     {
@@ -61,6 +70,7 @@ class Article
         return $this;
     }
 
+  
     public function getContent(): ?string
     {
         return $this->content;
@@ -84,6 +94,7 @@ class Article
 
         return $this;
     }
+
 
     public function __toString()
     {
