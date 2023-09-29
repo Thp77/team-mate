@@ -11,6 +11,10 @@ body  {
   
 }
 
+
+.fa-dumbbell{
+    color: #db9c14;
+}
 /* Fin Css Burger NavBar  */
 /* ///////////////////// */
 
@@ -107,5 +111,43 @@ body  {
 
     /*fin  css btn hover icon/
     /* ////////////////// */
+    
+    
+    /*debut  css show article-team /
+    /* ////////////////// */
+    
+    .dd_form_img img{
+        
+        width: auto;
+        border-radius: 25px;
+        box-shadow: 6px 10px 8px -1px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 6px 10px 8px -1px rgba(0,0,0,0.75);
+        -moz-box-shadow: 6px 10px 8px -1px rgba(0,0,0,0.75);
+        margin-bottom: 25px;
+    }
+    /*fin  css btn hover icon/
+    /* ////////////////// */
 
 
+    /*debut  css index /
+    /* ////////////////// */
+    
+    .dd_index {
+        
+        max-width: 20rem;
+        height: auto;
+       
+    }
+    /*fin  css btn hover icon/
+    /* ////////////////// */
+
+    /*debut  css edit /
+    /* ////////////////// */
+    
+    
+    .article-wrapper {
+        display: flex;
+        flex-wrap: wrap;
+      }
+    /*fin  css btn hover icon/
+    /* ////////////////// */

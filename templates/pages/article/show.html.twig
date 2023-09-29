@@ -21,11 +21,11 @@
 		<p>
 			{{article.content}}</p>
 
-		<div class="mb-4">
+		<div class="dd_form_img mb-4">
 			{% if vich_uploader_asset(article, 'imageFile') is null %}
-				<img style="border-radius:5%;  " src="{{ asset('/img/girlfit.jpg') }}"/>
+				<img src="{{ asset('/img/girlfit.jpg') }}"/>
 			{% else %}
-				<img src="{{ vich_uploader_asset(article, 'imageFile') }}">
+				<img  src="{{ vich_uploader_asset(article, 'imageFile') }}">
 			{% endif %}
 		</div>
 	</div>

@@ -20,9 +20,9 @@
 		<p>
 			{{team.description}}</p>
 		<hr class="featurette-divider">
-		<div>
+		<div class="dd_form_img">
 			{% if vich_uploader_asset(team, 'imageFile') is null %}
-				<img style="border-radius:5%;  " src="{{ asset('/img/girlfit.jpg') }}"/>
+				<img src="{{ asset('/img/girlfit.jpg') }}"/>
 			{% else %}
 				<img src="{{ vich_uploader_asset(team, 'imageFile') }}">
 			{% endif %}

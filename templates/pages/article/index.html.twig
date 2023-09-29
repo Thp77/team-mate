@@ -44,10 +44,10 @@
 
 				<div class="  d-inline-flex align-items-center my-3 ">
 					<div class="row g-0 ">
-						<div class="card border-warning bg-opacity-50 text-white  bg-secondary bg-gradient  " style="max-width: 20rem; height:auto;">
+						<div class="card border-warning bg-opacity-50 text-white  bg-secondary bg-gradient dd_index " >
 						
 								{% if vich_uploader_asset(article, 'imageFile') is null %}
-									<img style="border-radius:5%;  " src="{{ asset('/img/girlfit.jpg') }}"/>
+									<img src="{{ asset('/img/girlfit.jpg') }}"/>
 								{% else %}
 									<img src="{{ vich_uploader_asset(article, 'imageFile') }}">
 								{% endif %}
