@@ -59,10 +59,7 @@
 			<div>{{ form_errors(form.isPublic) }}</div>
 
 		</div>
-		<div>
-			{{ form_row(form.imageFile) }}
-		</div>
-
+		
 		
 		<div id="article-wrapper">
 			{% for field in form.article %}
@@ -72,7 +69,7 @@
 				</div>
 			{% endfor %}
 		</div>
-
+		
 		<div class="form-group text-center">
 			{{ form_row(form.submit) }}
 		</div>

@@ -123,7 +123,8 @@ class TeamType extends AbstractType
                     'attr' => [
                         'class' => 'form-control',
                         'min' => 1,
-                        'max' => 5
+                        'max' => 5,
+                        'placeholder' => 'Veuillez indiquer l\'endroit et l\'heure de vôtre entrainement.' // Ajoutez votre placeholder ici
                     ],
                     'label' => 'Description',
                     'label_attr' => [

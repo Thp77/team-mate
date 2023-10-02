@@ -19,6 +19,8 @@
 		<hr class="featurette-divider">
 		<p>
 			{{team.description}}</p>
+
+
 		<hr class="featurette-divider">
 		<div class="dd_form_img">
 			{% if vich_uploader_asset(team, 'imageFile') is null %}
@@ -58,11 +60,22 @@
 			<span class=" badge bg-success mb-4 p-2">
 				{{article.title}}
 			</span>
+
 		{% else %}
 
 			<p>Aucun exercices renseigné</p>
 		{% endfor %}
-	</div>
 
+
+		<p>Email de contact :</p>
+		{% if team.user %}
+			<p class="badge bg-success mb-4 p-2">
+				<a class="text-decoration-none  text-white" href="mailto:{{ team.user.email }}">{{ team.user.email }}</a>
+			</p>
+		{% else %}
+			<p>Aucun utilisateur renseigné</p>
+		{% endif %}
+
+	</div>
 
 {% endblock %}
